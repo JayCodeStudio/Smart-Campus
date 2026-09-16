@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Events - Smart Campus</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+
+        <div class="logo">Smart Campus Admin</div>
+
+        <nav>
+            <a href="admin-dashboard.html">Dashboard</a>
+            <a href="index.html">Home</a>
+        </nav>
+
+    </header>
+
+
+    <main>
+
+        <h1>Event Management</h1>
+
+        <p>View and manage college events.</p>
+
+
+        <button onclick="showEventForm()">
+            + Add Event
+        </button>
+
+
+        <div id="event-form"
+            style="display: none; margin: 25px auto; max-width: 600px; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+
+            <h2>Add New Event</h2>
+
+            <br>
+
+            <label>Event Name</label>
+
+            <input
+                type="text"
+                id="event-name"
+                placeholder="Enter event name"
+            >
+
+            <br><br>
+
+            <label>Date</label>
+
+            <input
+                type="date"
+                id="event-date"
+            >
+
+            <br><br>
+
+            <label>Venue</label>
+
+            <input
+                type="text"
+                id="event-venue"
+                placeholder="Enter venue"
+            >
+
+            <br><br>
+
+            <button onclick="addEvent()">
+                Save Event
+            </button>
+
+        </div>
+
+
+        <div class="student-table">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Event ID</th>
+                        <th>Event Name</th>
+                        <th>Date</th>
+                        <th>Venue</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+                        <td>EV001</td>
+                        <td>Annual Fest</td>
+                        <td>20 October 2026</td>
+                        <td>College Ground</td>
+                        <td>Upcoming</td>
+                    </tr>
+
+                    <tr>
+                        <td>EV002</td>
+                        <td>Tech Fest</td>
+                        <td>5 November 2026</td>
+                        <td>Seminar Hall</td>
+                        <td>Upcoming</td>
+                    </tr>
+
+                    <tr>
+                        <td>EV003</td>
+                        <td>Sports Day</td>
+                        <td>15 November 2026</td>
+                        <td>Sports Ground</td>
+                        <td>Upcoming</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        function showEventForm() {
+
+            document.getElementById("event-form").style.display = "block";
+
+        }
+
+
+        function addEvent() {
+
+            const name =
+                document.getElementById("event-name").value;
+
+            const date =
+                document.getElementById("event-date").value;
+
+            const venue =
+                document.getElementById("event-venue").value;
+
+
+            if (name === "" || date === "" || venue === "") {
+
+                alert("Please fill all fields!");
+
+                return;
+
+            }
+
+
+            const events =
+                JSON.parse(localStorage.getItem("events")) || [];
+
+
+            events.push({
+
+                name: name,
+
+                date: date,
+
+                venue: venue,
+
+                status: "Upcoming"
+
+            });
+
+
+            localStorage.setItem(
+                "events",
+                JSON.stringify(events)
+            );
+
+
+            alert("Event added successfully!");
+
+
+            document.getElementById("event-name").value = "";
+
+            document.getElementById("event-date").value = "";
+
+            document.getElementById("event-venue").value = "";
+
+            document.getElementById("event-form").style.display = "none";
+
+        }
+
+    </script>
+
+</body>
+
+</html>

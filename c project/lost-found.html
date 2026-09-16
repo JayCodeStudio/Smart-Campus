@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Lost & Found - Smart Campus</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+
+        <div class="logo">
+            Smart Campus
+        </div>
+
+        <nav>
+            <a href="student-dashboard.html">Dashboard</a>
+            <a href="index.html">Home</a>
+        </nav>
+
+    </header>
+
+
+    <main>
+
+        <h1>Lost & Found</h1>
+
+        <p>
+            Report a lost item or help someone find their belongings.
+        </p>
+
+
+        <!-- Report Form -->
+
+        <div class="complaint-box">
+
+            <form onsubmit="submitReport(event)">
+
+                <label for="item-name">
+                    Item Name
+                </label>
+
+                <input
+                    type="text"
+                    id="item-name"
+                    placeholder="Enter item name"
+                    required
+                >
+
+
+                <label for="item-type">
+                    Item Type
+                </label>
+
+                <select id="item-type" required>
+
+                    <option value="">
+                        Select Item Type
+                    </option>
+
+                    <option>Mobile</option>
+                    <option>ID Card</option>
+                    <option>Books</option>
+                    <option>Bag</option>
+                    <option>Keys</option>
+                    <option>Other</option>
+
+                </select>
+
+
+                <label for="report-type">
+                    Report Type
+                </label>
+
+                <select id="report-type" required>
+
+                    <option value="">
+                        Select Report Type
+                    </option>
+
+                    <option>Lost</option>
+                    <option>Found</option>
+
+                </select>
+
+
+                <label for="location">
+                    Location
+                </label>
+
+                <input
+                    type="text"
+                    id="location"
+                    placeholder="Where was it lost/found?"
+                    required
+                >
+
+
+                <label for="description">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    rows="5"
+                    placeholder="Describe the item..."
+                    required
+                ></textarea>
+
+
+                <button type="submit">
+                    Submit Report
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- My Lost & Found Reports -->
+
+        <h2 style="margin-top: 50px; color: #1e3a8a;">
+            🔎 My Lost & Found Reports
+        </h2>
+
+        <p style="margin-top: 10px; color: #666;">
+            View your submitted Lost & Found reports.
+        </p>
+
+
+        <div class="student-table">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Report ID</th>
+                        <th>Item Name</th>
+                        <th>Type</th>
+                        <th>Report Type</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="myLostFoundReports">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        function submitReport(event) {
+
+            event.preventDefault();
+
+
+            const report = {
+
+                itemName:
+                    document.getElementById("item-name").value,
+
+                itemType:
+                    document.getElementById("item-type").value,
+
+                type:
+                    document.getElementById("report-type").value,
+
+                location:
+                    document.getElementById("location").value,
+
+                description:
+                    document.getElementById("description").value,
+
+                status: "Pending"
+
+            };
+
+
+            const reports =
+                JSON.parse(
+                    localStorage.getItem("lostFoundReports")
+                ) || [];
+
+
+            reports.push(report);
+
+
+            localStorage.setItem(
+                "lostFoundReports",
+                JSON.stringify(reports)
+            );
+
+
+            alert(
+                "Lost & Found report submitted successfully!"
+            );
+
+
+            document.querySelector("form").reset();
+
+
+            loadMyReports();
+
+        }
+
+
+        function loadMyReports() {
+
+            const reports =
+                JSON.parse(
+                    localStorage.getItem("lostFoundReports")
+                ) || [];
+
+
+            const table =
+                document.getElementById(
+                    "myLostFoundReports"
+                );
+
+
+            table.innerHTML = "";
+
+
+            reports.forEach(
+                (report, index) => {
+
+                    const row =
+                        document.createElement("tr");
+
+
+                    /*
+                       Old reports compatibility:
+                       Earlier reports stored Lost/Found
+                       inside the status field.
+                    */
+
+                    let reportType =
+                        report.type || "";
+
+                    let currentStatus =
+                        report.status || "Pending";
+
+
+                    if (
+                        !reportType &&
+                        (
+                            currentStatus === "Lost" ||
+                            currentStatus === "Found"
+                        )
+                    ) {
+
+                        reportType =
+                            currentStatus;
+
+                        currentStatus =
+                            "Pending";
+
+                    }
+
+
+                    row.innerHTML = `
+
+                        <td>
+                            LF${String(index + 1).padStart(3, "0")}
+                        </td>
+
+                        <td>
+                            ${report.itemName || "Unknown Item"}
+                        </td>
+
+                        <td>
+                            ${report.itemType || "Other"}
+                        </td>
+
+                        <td>
+                            ${reportType || "Unknown"}
+                        </td>
+
+                        <td>
+                            ${report.location || "Unknown"}
+                        </td>
+
+                        <td>
+                            ${currentStatus}
+                        </td>
+
+                    `;
+
+
+                    table.appendChild(row);
+
+                }
+            );
+
+        }
+
+
+        loadMyReports();
+
+    </script>
+
+</body>
+
+</html>
