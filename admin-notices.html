@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Notices - Smart Campus</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+
+        <div class="logo">
+            Smart Campus Admin
+        </div>
+
+        <nav>
+            <a href="admin-dashboard.html">Dashboard</a>
+            <a href="index.html">Home</a>
+        </nav>
+
+    </header>
+
+
+    <main>
+
+        <h1>Notice Management</h1>
+
+        <p>View and manage college notices.</p>
+
+
+        <!-- Add Notice Button -->
+
+        <button onclick="showNoticeForm()">
+            + Add Notice
+        </button>
+
+
+        <!-- Add Notice Form -->
+
+        <div id="notice-form"
+            style="display: none; margin: 25px auto; max-width: 600px; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+
+            <h2>Add New Notice</h2>
+
+            <br>
+
+            <label>Notice Title</label>
+
+            <input
+                type="text"
+                id="notice-title"
+                placeholder="Enter notice title"
+            >
+
+            <br><br>
+
+
+            <label>Date</label>
+
+            <input
+                type="date"
+                id="notice-date"
+            >
+
+            <br><br>
+
+
+            <label>Department</label>
+
+            <input
+                type="text"
+                id="notice-department"
+                placeholder="Enter department"
+            >
+
+            <br><br>
+
+
+            <button onclick="addNotice()">
+                Save Notice
+            </button>
+
+        </div>
+
+
+        <!-- Notice Table -->
+
+        <div class="student-table">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Notice ID</th>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Department</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="notice-list">
+
+                    <tr>
+                        <td>NT001</td>
+                        <td>Semester Examination</td>
+                        <td>10 Sep 2026</td>
+                        <td>All Departments</td>
+                        <td>Active</td>
+                    </tr>
+
+
+                    <tr>
+                        <td>NT002</td>
+                        <td>Library Notice</td>
+                        <td>12 Sep 2026</td>
+                        <td>All Departments</td>
+                        <td>Active</td>
+                    </tr>
+
+
+                    <tr>
+                        <td>NT003</td>
+                        <td>Academic Notice</td>
+                        <td>14 Sep 2026</td>
+                        <td>CSE</td>
+                        <td>Active</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+
+    <!-- JavaScript -->
+
+    <script>
+
+        function showNoticeForm() {
+
+            document.getElementById("notice-form").style.display = "block";
+
+        }
+
+
+        function addNotice() {
+
+            const title =
+                document.getElementById("notice-title").value;
+
+            const date =
+                document.getElementById("notice-date").value;
+
+            const department =
+                document.getElementById("notice-department").value;
+
+
+            if (title === "" || date === "" || department === "") {
+
+                alert("Please fill all fields!");
+
+                return;
+
+            }
+
+
+            const notices =
+                JSON.parse(localStorage.getItem("notices")) || [];
+
+
+            notices.push({
+
+                title: title,
+
+                date: date,
+
+                department: department,
+
+                status: "Active"
+
+            });
+
+
+            localStorage.setItem(
+                "notices",
+                JSON.stringify(notices)
+            );
+
+
+            alert("Notice added successfully!");
+
+
+            document.getElementById("notice-title").value = "";
+
+            document.getElementById("notice-date").value = "";
+
+            document.getElementById("notice-department").value = "";
+
+
+            document.getElementById("notice-form").style.display = "none";
+
+        }
+
+    </script>
+
+</body>
+
+</html>

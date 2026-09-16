@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Placements - Smart Campus</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+
+        <div class="logo">Smart Campus Admin</div>
+
+        <nav>
+            <a href="admin-dashboard.html">Dashboard</a>
+            <a href="index.html">Home</a>
+        </nav>
+
+    </header>
+
+
+    <main>
+
+        <h1>Placement Management</h1>
+
+        <p>View and manage placement opportunities.</p>
+
+
+        <button onclick="showPlacementForm()">
+            + Add Placement
+        </button>
+
+
+        <div id="placement-form"
+            style="display: none; margin: 25px auto; max-width: 600px; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+
+            <h2>Add New Placement</h2>
+
+            <br>
+
+            <label>Company</label>
+
+            <input
+                type="text"
+                id="company"
+                placeholder="Enter company name"
+            >
+
+            <br><br>
+
+            <label>Position</label>
+
+            <input
+                type="text"
+                id="position"
+                placeholder="Enter job position"
+            >
+
+            <br><br>
+
+            <label>Eligibility</label>
+
+            <input
+                type="text"
+                id="eligibility"
+                placeholder="Enter eligibility"
+            >
+
+            <br><br>
+
+            <label>Package</label>
+
+            <input
+                type="text"
+                id="package"
+                placeholder="Enter package"
+            >
+
+            <br><br>
+
+            <button onclick="addPlacement()">
+                Save Placement
+            </button>
+
+        </div>
+
+
+        <div class="student-table">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Job ID</th>
+                        <th>Company</th>
+                        <th>Position</th>
+                        <th>Eligibility</th>
+                        <th>Package</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+                        <td>PL001</td>
+                        <td>Tech Solutions Pvt. Ltd.</td>
+                        <td>Software Developer</td>
+                        <td>B.Tech CSE</td>
+                        <td>5 LPA</td>
+                    </tr>
+
+                    <tr>
+                        <td>PL002</td>
+                        <td>Future Infotech</td>
+                        <td>Web Developer</td>
+                        <td>B.Tech / MCA</td>
+                        <td>4.5 LPA</td>
+                    </tr>
+
+                    <tr>
+                        <td>PL003</td>
+                        <td>Innovate Systems</td>
+                        <td>Junior Software Engineer</td>
+                        <td>B.Tech CSE</td>
+                        <td>6 LPA</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        function showPlacementForm() {
+
+            document.getElementById("placement-form").style.display = "block";
+
+        }
+
+
+        function addPlacement() {
+
+            const company =
+                document.getElementById("company").value;
+
+            const position =
+                document.getElementById("position").value;
+
+            const eligibility =
+                document.getElementById("eligibility").value;
+
+            const packageValue =
+                document.getElementById("package").value;
+
+
+            if (
+                company === "" ||
+                position === "" ||
+                eligibility === "" ||
+                packageValue === ""
+            ) {
+
+                alert("Please fill all fields!");
+
+                return;
+
+            }
+
+
+            const placements =
+                JSON.parse(localStorage.getItem("placements")) || [];
+
+
+            placements.push({
+
+                company: company,
+
+                position: position,
+
+                eligibility: eligibility,
+
+                package: packageValue
+
+            });
+
+
+            localStorage.setItem(
+                "placements",
+                JSON.stringify(placements)
+            );
+
+
+            alert("Placement added successfully!");
+
+
+            document.getElementById("company").value = "";
+
+            document.getElementById("position").value = "";
+
+            document.getElementById("eligibility").value = "";
+
+            document.getElementById("package").value = "";
+
+            document.getElementById("placement-form").style.display = "none";
+
+        }
+
+    </script>
+
+</body>
+
+</html>

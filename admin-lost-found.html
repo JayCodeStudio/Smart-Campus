@@ -1,0 +1,163 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Lost & Found - Smart Campus</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">Smart Campus Admin</div>
+
+        <nav>
+            <a href="admin-dashboard.html">Dashboard</a>
+            <a href="index.html">Home</a>
+        </nav>
+    </header>
+
+
+    <main>
+
+        <h1>Lost & Found Management</h1>
+
+        <p>View and manage student lost and found reports.</p>
+
+
+        <div class="student-table">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Item Name</th>
+                        <th>Type</th>
+                        <th>Location</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="lost-found-list">
+
+                    <tr>
+                        <td>LF001</td>
+                        <td>Black Wallet</td>
+                        <td>Lost</td>
+                        <td>Library</td>
+                        <td>Black leather wallet</td>
+                        <td>Pending</td>
+                    </tr>
+
+
+                    <tr>
+                        <td>LF002</td>
+                        <td>Mobile Phone</td>
+                        <td>Lost</td>
+                        <td>Classroom 204</td>
+                        <td>Black Android phone</td>
+                        <td>Found</td>
+                    </tr>
+
+
+                    <tr>
+                        <td>LF003</td>
+                        <td>College ID Card</td>
+                        <td>Found</td>
+                        <td>Canteen</td>
+                        <td>Student ID card</td>
+                        <td>Returned</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+
+        <script>
+
+        function loadReports() {
+
+            const reports =
+                JSON.parse(localStorage.getItem("lostFoundReports")) || [];
+
+            const list =
+                document.getElementById("lost-found-list");
+
+
+            reports.forEach((report, index) => {
+
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>LF${String(index + 4).padStart(3, "0")}</td>
+                    <td>${report.itemName}</td>
+                    <td>${report.status}</td>
+                    <td>${report.location}</td>
+                    <td>${report.description}</td>
+
+                    <td>
+                        <select onchange="saveReportStatus(${index}, this.value)">
+
+                            <option ${report.adminStatus === "Pending" ? "selected" : ""}>
+                                Pending
+                            </option>
+
+                            <option ${report.adminStatus === "Found" ? "selected" : ""}>
+                                Found
+                            </option>
+
+                            <option ${report.adminStatus === "Returned" ? "selected" : ""}>
+                                Returned
+                            </option>
+
+                        </select>
+                    </td>
+                `;
+
+                list.appendChild(row);
+
+            });
+
+        }
+
+
+        function saveReportStatus(index, status) {
+
+            const reports =
+                JSON.parse(localStorage.getItem("lostFoundReports")) || [];
+
+            reports[index].adminStatus = status;
+
+            localStorage.setItem(
+                "lostFoundReports",
+                JSON.stringify(reports)
+            );
+
+            alert("Lost & Found status updated!");
+
+        }
+
+
+        loadReports();
+
+    </script>
+
+</body>
+
+</html>
+```

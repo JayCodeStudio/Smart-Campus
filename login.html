@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login - Smart Campus</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <div class="login-box">
+
+            <h1>Student Login</h1>
+            <p>Welcome back to Smart Campus</p>
+
+            <form>
+
+                <label for="email">Student Email</label>
+                <input type="email" id="email" placeholder="Enter your email">
+
+                <label for="password">Password</label>
+
+                <div style="display: flex; gap: 8px;">
+
+                    <input type="password" id="password" placeholder="Enter your password">
+
+                    <button type="button" id="toggleBtn" onclick="togglePassword()" style="width: 70px; height: 42px; padding: 5px; margin-bottom: 20px;">
+                        SHOW
+                    </button>
+
+                </div>
+
+                <button type="button" onclick="studentLogin()">
+                    Login
+                </button>
+
+            </form>
+
+            <p class="register-text">
+                New student? <a href="#">Create Account</a>
+            </p>
+
+            <p style="margin-top: 15px;">
+                <a href="index.html">← Back to Home</a>
+            </p>
+
+        </div>
+    </div>
+
+    <script>
+
+        function togglePassword() {
+
+            const password = document.getElementById("password");
+            const toggleBtn = document.getElementById("toggleBtn");
+
+            if (password.type === "password") {
+
+                password.type = "text";
+                toggleBtn.textContent = "HIDE";
+
+            } else {
+
+                password.type = "password";
+                toggleBtn.textContent = "SHOW";
+
+            }
+
+        }
+
+
+        function studentLogin() {
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            if (email === "" || password === "") {
+
+                alert("Please enter email and password!");
+                return;
+
+            }
+
+            if (email === "student@example.com" && password === "1234") {
+
+                localStorage.setItem("profileName", "Jay Singh");
+                localStorage.setItem("profileEmail", email);
+
+                window.location.href = "student-dashboard.html";
+
+            }
+
+            else {
+
+                alert("Invalid email or password!");
+
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>
+
